@@ -80,6 +80,8 @@ while (idx < report_lines.size) do
     answer   = md[1]
     step_num = md[2]
 
+    puts "Number of steps: #{step_num}"
+
     if answer == "ACCEPTED"
       accepts = true
     elsif answer == "NOT Accepted"
@@ -96,7 +98,7 @@ while (idx < report_lines.size) do
       puts "[warn] Found output without corresponding input"
     else
 
-      if step_num.to_i >= 300
+      if step_num.to_i >= 1000
         puts "[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct."
         puts "Machine was stuck in infinite loop (max steps achieved)"
         puts
