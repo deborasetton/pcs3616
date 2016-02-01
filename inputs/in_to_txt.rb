@@ -16,7 +16,7 @@ cases = lines.find_all { |x| x.start_with?('$') }.map { |x| x.split('//')[0].str
 outfile = filename.sub(/\.in\z/, '.txt')
 
 File.open(outfile, 'w') do |f|
-  f.puts 500
+  f.puts 1000
   f.puts cases.count
   f.puts cases.join("\n")
 end

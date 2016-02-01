@@ -3,6 +3,7 @@
 #
 
 require 'byebug'
+require 'paint'
 
 args = ARGV.join(" ")
 
@@ -95,29 +96,29 @@ while (idx < report_lines.size) do
     tape_contents = tape_contents.gsub('B', '')
 
     if it_input.nil?
-      puts "[warn] Found output without corresponding input"
+      puts Paint["[warn] Found output without corresponding input", :yellow]
     else
 
-      if step_num.to_i >= 1000
-        puts "[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct."
-        puts "Machine was stuck in infinite loop (max steps achieved)"
+      if step_num.to_i >= 1000 && !input_case[1].match(/FAIL/)
+        puts Paint["[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct.", :red, :bold]
+        puts Paint["Machine was stuck in infinite loop (max steps achieved)", :red, :bold]
         puts
       elsif "#{input_case[1]}<read-head>" == tape_contents
         if accepts
-          puts "[Pass] Test case #{input_case[0]} #{input_case[2]} is correct."
+          puts Paint["[Pass] Test case #{input_case[0]} #{input_case[2]} is correct.", :green]
           puts
         else
-          puts "[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct."
-          puts "Expected machine to accept input, but it didn't"
+          puts Paint["[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct.", :red, :bold]
+          puts Paint["Expected machine to accept input, but it didn't", :red, :bold]
           puts
         end
-      elsif input_case[1] == "STOP_FAIL" && !accepts
-        puts "[Pass] Test case #{input_case[0]} #{input_case[2]} is correct."
-        puts "Machine REJECTED input"
+      elsif input_case[1].match(/FAIL/) && !accepts
+        puts Paint["[Pass] Test case #{input_case[0]} #{input_case[2]} is correct.", :green]
+        puts Paint["Machine REJECTED input", :green]
         puts
       else
-        puts "[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct."
-        puts "Expected: #{input_case[1]}<read-head>, got: #{tape_contents}"
+        puts Paint["[Fail] Test case #{input_case[0]} #{input_case[2]} is NOT correct.", :red, :bold]
+        puts Paint["Expected: #{input_case[1]}<read-head>, got: #{tape_contents}", :red, :bold]
         puts
       end
     end
